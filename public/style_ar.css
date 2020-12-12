@@ -1,0 +1,40 @@
+.relative .relative{
+    direction: ltr;
+}
+
+.rounded-b-lg{
+    left: 20px !important;
+    right: auto !important;
+
+}
+
+.dropdown-trigger .text-90 {
+ padding: 10px;
+}
+
+.sidebar-icon {
+    margin-left: .75rem;
+    margin-right: 0px;
+}
+
+button {
+    margin-left: .75rem !important;
+    margin-right: .75rem !important;
+}
+
+.ml-2 {
+    margin-right: .5rem;
+}
+.mr-2 {
+    margin-left: .5rem;
+}
+
+table{
+    direction: rtl !important;
+
+}
+
+table th, table td div{
+    text-align: right !important;
+
+}
