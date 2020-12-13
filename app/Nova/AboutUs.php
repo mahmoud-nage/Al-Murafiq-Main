@@ -78,7 +78,7 @@ class AboutUs extends Resource
 
             Boolean::make(__('active'),'active')->trueValue(1)->falseValue(0)->sortable()->default(1),
             Boolean::make(__('in_home'), 'in_home')->trueValue(1)->falseValue(0)->sortable()->default(0),
-            MorphMany::make(__('files'),'files', File::class)->rules('required')->inline(),
+            MorphMany::make(__('files'),'files', File::class)->rules('required'),
         ];
     }
 

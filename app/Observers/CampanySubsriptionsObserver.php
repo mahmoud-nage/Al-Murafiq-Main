@@ -19,21 +19,12 @@ class CampanySubsriptionsObserver
     {
         $subs = $campanySubsriptions->subscription;
         $user = $campanySubsriptions->company->user;
-
-        $payment = Payment::create([
-            'user_id' => $user->id,
-            'payment_method_id' => PaymentMethod::where('type', "Cash")->first()->id,
-            'company_subsription_id' => $campanySubsriptions->id,
-            'amount' => $subs->price,
-            'payment_status' => 1,
+        $subrel = $campanySubsriptions->update([
+            'to' => date('Y-m-d', strtotime($campanySubsriptions->from. ' + '.$subs->days.' day')),
+            'price' => $subs->price,
+            'slider_num' => $subs->slider_num,
+            'banner_num' => $subs->banner_num,
         ]);
-
-        $campanySubsriptions->to = date('Y-m-d', strtotime($campanySubsriptions->from. ' + '.$subs->days.' day'));
-        $campanySubsriptions->price = $subs->price;
-        $campanySubsriptions->slider_num = $subs->slider_num;
-        $campanySubsriptions->banner_num = $subs->banner_num;
-        $campanySubsriptions->payment_id = $payment->id;
-        $campanySubsriptions->save();
     }
 
     /**

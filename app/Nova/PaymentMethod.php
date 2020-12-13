@@ -63,7 +63,7 @@ class PaymentMethod extends Resource
             ID::make(__('ID'), 'id')->sortable(),
 
             Text::make(__('name_ar'), 'name_ar')
-                ->rules('nullable', 'max:190')
+                ->rules('required', 'max:190')
                 ->sortable(),
             Text::make(__('name_en'), 'name_en')
                 ->rules('required', 'max:190')

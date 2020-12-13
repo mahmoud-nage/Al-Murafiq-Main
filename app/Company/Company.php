@@ -41,7 +41,7 @@ class Company extends Model
 
     public function payments()
     {
-        return $this->hasManyThrough('App\General\Payment', 'App\User', 'userable_id');
+        return $this->hasMany('App\General\Payment', 'company_id');
     }
 
     public function affilates()
@@ -69,10 +69,11 @@ class Company extends Model
         return $this->hasMany('App\General\Wishlist', 'company_id', 'id')->with('user');
     }
 
-    public function Subscriptions()
-    {
-        return $this->belongsToMany('App\General\Subscription', 'company_subsriptions')->withPivot('from', 'to', 'price', 'slider_num', 'banner_num');
-    }
+//    public function Subscriptions()
+//    {
+//        return $this->belongsToMany('App\General\Subscription', 'company_subsriptions')->withPivot('from', 'to', 'price', 'slider_num', 'banner_num');
+//    }
+
 
     public function category()
     {
@@ -87,6 +88,10 @@ class Company extends Model
     public function ads()
     {
         return $this->hasMany('App\General\Ad');
+    }
+    public function Subscriptions()
+    {
+        return $this->hasMany('App\General\CampanySubsriptions');
     }
 
     public function file()

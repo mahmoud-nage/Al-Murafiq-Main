@@ -18,7 +18,7 @@ class Payment extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $fillable = array('user_id', 'company_id', 'payment_method_id', 'amount', 'payment_details', 'payment_status', 'file');
+    protected $fillable = array('user_id', 'company_id', 'payment_method_id', 'company_subscription_id', 'amount', 'payment_details', 'payment_status', 'file');
     // protected $visible = array('user_id', 'payment_method_id', 'company_subsription_id', 'amount', 'payment_details', 'payment_status');
 
     public function user()
@@ -29,6 +29,11 @@ class Payment extends Model
     public function company()
     {
         return $this->belongsTo(Company::class, 'company_id');
+    }
+
+    public function companySubscription()
+    {
+        return $this->belongsTo(CampanySubsriptions::class, 'company_subscription_id');
     }
 
     public function paymentMethod()

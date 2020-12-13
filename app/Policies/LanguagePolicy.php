@@ -42,7 +42,7 @@ class LanguagePolicy
      */
     public function create(User $user)
     {
-        return false;
+        return $user->can('manage own Language');
     }
 
     /**

@@ -16,8 +16,7 @@ class CampanySubsriptions extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at', 'from', 'to'];
-    protected $fillable = array('company_id', 'subscription_id', 'from', 'to', 'price', 'slider_num', 'banner_num', 'payment_id');
-    // protected $visible = array('company_id', 'subscription_id', 'from', 'to', 'price', 'slider_num', 'banner_num', 'payment_id');
+    protected $fillable = array('company_id', 'subscription_id', 'from', 'to', 'price', 'slider_num', 'banner_num', 'payment_id', 'country_id');
 
     public function ads()
     {
@@ -36,7 +35,7 @@ class CampanySubsriptions extends Model
 
     public function payment()
     {
-        return $this->belongsTo('App\General\Payment', 'payment_id');
+        return $this->hasOne('App\General\Payment', 'company_subscription_id', 'id');
     }
 
 }

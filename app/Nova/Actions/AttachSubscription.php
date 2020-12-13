@@ -72,7 +72,6 @@ class AttachSubscription extends Action
 
              Date::make(__('from'), 'from')->rules('required','after_or_equal:today'),
 
-             // Date::make('to')->rules('required'),
              Select::make(__('paymentMethod'), 'paymentMethod')->options(function () {
                  return \App\General\PaymentMethod::where('type', 'Cash')->pluck('name_'.app()->getLocale(), 'id');
              })->searchable()->rules('required'),

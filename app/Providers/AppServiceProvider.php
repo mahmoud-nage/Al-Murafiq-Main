@@ -35,6 +35,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Company::observe(CompanyObserve::class);
-//        CampanySubsriptions::observe(CampanySubsriptionsObserver::class);
+        CampanySubsriptions::observe(CampanySubsriptionsObserver::class);
     }
 }

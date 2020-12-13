@@ -9,11 +9,8 @@ use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\MorphOne;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\MorphMany;
 use App\Nova\Actions\PaidPaymentRequest;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Payment extends Resource
 {
@@ -69,9 +66,36 @@ class Payment extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             BelongsTo::make(__('user'), 'user', User::class)->rules('required')->default(auth()->user()->id),
-            BelongsTo::make(__('company'), 'company', Company::class)->rules('required'),
+
+            BelongsTo::make(__('company'), 'company', Company::class)->rules('required')
+                ->default(function($request){
+                    if(isset($request->viaResourceId) && $request->viaResourceId && $request->viaResource == 'company-subsriptions'){
+                        return \App\General\CampanySubsriptions::find($request->viaResourceId)->company_id;
+                    }
+                }),
+
+            BelongsTo::make(__('subscription'), 'companySubscription', CompanySubsription::class)
+                ->rules('required')
+                ->default(function($request){
+                    if(isset($request->viaResourceId) && $request->viaResourceId && $request->viaResource == 'company-subsriptions'){
+                        return $request->viaResourceId;
+                    }
+                })
+                ->exceptOnForms(function($request){
+                    if($request->viaResource == 'companies'){
+                        return 0;
+                    }else{
+                        return 1;
+                    }
+                }),
+
             BelongsTo::make(__('paymentMethod'), 'paymentMethod', PaymentMethod::class)->default(\App\General\PaymentMethod::where('type', 'Cash')->first()->id)->rules('required'),
-            Number::make(__('amount'), 'amount')->rules('required')->step(0.5)->min(1)->default(1),
+            Number::make(__('amount'), 'amount')->rules('required')->step(0.5)->min(1)
+                ->default(function($request){
+                    if(isset($request->viaResourceId) && $request->viaResourceId && $request->viaResource == 'company-subsriptions'){
+                        return \App\General\CampanySubsriptions::find($request->viaResourceId)->price;
+                    }
+                }),
             Trix::make(__('Payment Details'), 'payment_details'),
             Boolean::make(__('Payment Status'), 'payment_status')->trueValue(1)->falseValue(0)->sortable()->default(0),
 
