@@ -201,7 +201,7 @@ class Company extends Resource
     public function desc()
     {
         return [
-            Trix::make(__('desc_ar'), 'desc_ar')->rules('nullable', 'max:190'),
+            Trix::make(__('desc_ar'), 'desc_ar')->rules('nullable'),
             Trix::make(__('desc_en'), 'desc_en')->required(),
         ];
     }

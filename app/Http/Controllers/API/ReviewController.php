@@ -42,7 +42,7 @@ class ReviewController extends Controller
     public function commentLike(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|exists:users,id',
+//            'user_id' => 'required|exists:users,id',
             'review_id' => 'required|exists:reviews,id',
         ]);
 
@@ -52,7 +52,7 @@ class ReviewController extends Controller
         $review = Review::find($request->review_id)->increment('likes_count');
         if ($review) {
             $comment = CommentLike::create([
-                'user_id' => $request->user_id,
+                'user_id' => auth()->user()->id,
                 'review_id' => $request->review_id,
             ]);
             return response()->json(['status' => 200, 'message' => __('messages.like_success')], 200);
@@ -64,7 +64,7 @@ class ReviewController extends Controller
     public function commentDislike(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|exists:users,id',
+//            'user_id' => 'required|exists:users,id',
             'review_id' => 'required|exists:reviews,id',
             'reson' => 'required',
         ]);
@@ -75,7 +75,7 @@ class ReviewController extends Controller
         $review = Review::find($request->review_id)->increment('dislikens_count');
         if ($review) {
             $comment = CommentLike::create([
-                'user_id' => $request->user_id,
+                'user_id' => auth()->user()->id,
                 'review_id' => $request->review_id,
                 'type' => 1,
                 'reson' => $request->reson

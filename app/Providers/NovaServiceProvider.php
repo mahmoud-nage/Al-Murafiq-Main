@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Nova\Dashboards\General;
 use App\Nova\Dashboards\Payments;
 use App\Nova\Dashboards\Statistics;
-use App\Nova\Dashboards\UserInsights;
+use App\User;
 use Laravel\Nova\Nova;
 use Day4\SwitchLocale\SwitchLocale;
 use Illuminate\Support\Facades\Gate;
@@ -89,10 +89,15 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function dashboards()
     {
         return [
-            new General,
-            new Payments,
-            new Statistics,
-            new UserInsights,
+            (new General)->canSee(function ($request) {
+                return $request->user()->can('GeneralDashBoard', User::class);
+            }),
+            (new Payments)->canSee(function ($request) {
+                return $request->user()->can('PaymentDashBoard', User::class);
+            }),
+//            (new Statistics)->canSee(function ($request) {
+//                return $request->user()->can('StaticsDashBoard', User::class);
+//            }),
         ];
     }
 

@@ -1,27 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="c4338280-939e-4cb3-9cba-d0e48775ca69" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Al-Murafiq-Main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Al-Murafiq-Main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Company/Company.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Company/Company.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/General/Ad.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/General/Ad.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/General/CampanySubsriptions.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/General/CampanySubsriptions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/General/Payment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/General/Payment.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Nova/AboutUs.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/AboutUs.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Nova/Actions/AttachSubscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Actions/AttachSubscription.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/General/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/General/Category.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/CategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/CompanyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/CompanyController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/CountryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/CountryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ReviewController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ReviewController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/WhishlistController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/WhishlistController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/country.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/country.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Nova/Ad.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Ad.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Category.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Nova/Company.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Company.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Nova/CompanySubsription.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/CompanySubsription.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Nova/Payment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Payment.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Nova/PaymentMethod.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/PaymentMethod.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Observers/CampanySubsriptionsObserver.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/CampanySubsriptionsObserver.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/LanguagePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/LanguagePolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Dashboards/General.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Dashboards/General.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Dashboards/Main.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Dashboards/Payments.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Dashboards/Payments.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Dashboards/UserInsights.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Metrics/allAdmins.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Metrics/allAdmins.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/SubCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/SubCategory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Subscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Subscription.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/NovaServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/NovaServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
@@ -195,6 +233,7 @@
       <path value="$PROJECT_DIR$/vendor/dnoegel/php-xdg-base-dir" />
       <path value="$PROJECT_DIR$/vendor/egulias/email-validator" />
       <path value="$PROJECT_DIR$/vendor/giggsey/libphonenumber-for-php" />
+      <path value="$PROJECT_DIR$/vendor/epartment/nova-dependency-container" />
     </include_path>
   </component>
   <component name="ProjectId" id="1lbUwIZGdX4s9M6hB36pjFCWyCa" />
@@ -204,7 +243,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
@@ -234,25 +273,61 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1607865522228</updated>
-      <workItem from="1607865523377" duration="5948000" />
+      <workItem from="1607865523377" duration="6246000" />
+      <workItem from="1608021710492" duration="23815000" />
+      <workItem from="1608048406866" duration="20546000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
-    <state x="570" y="260" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1607868731572">
+    <state x="432" y="163" key="#Deployment" timestamp="1608022710105">
       <screen x="0" y="0" width="1680" height="1010" />
     </state>
-    <state x="570" y="260" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1680.1010@0.0.1680.1010" timestamp="1607868731572" />
-    <state x="696" y="404" key="WebDeployment.AddServerDialog.v.1" timestamp="1607865575268">
+    <state x="432" y="163" key="#Deployment/0.0.1680.1010@0.0.1680.1010" timestamp="1608022710105" />
+    <state x="570" y="260" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1608128287877">
       <screen x="0" y="0" width="1680" height="1010" />
     </state>
-    <state x="696" y="404" key="WebDeployment.AddServerDialog.v.1/0.0.1680.1010@0.0.1680.1010" timestamp="1607865575268" />
-    <state x="503" y="217" width="672" height="678" key="search.everywhere.popup" timestamp="1607865568073">
+    <state x="570" y="260" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1680.1010@0.0.1680.1010" timestamp="1608128287877" />
+    <state x="696" y="404" key="WebDeployment.AddServerDialog.v.1" timestamp="1608022677320">
       <screen x="0" y="0" width="1680" height="1010" />
     </state>
-    <state x="503" y="217" width="672" height="678" key="search.everywhere.popup/0.0.1680.1010@0.0.1680.1010" timestamp="1607865568073" />
+    <state x="696" y="404" key="WebDeployment.AddServerDialog.v.1/0.0.1680.1010@0.0.1680.1010" timestamp="1608022677320" />
+    <state x="669" y="235" key="ftp.server.browser" timestamp="1608022709299">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state x="669" y="235" key="ftp.server.browser/0.0.1680.1010@0.0.1680.1010" timestamp="1608022709299" />
+    <state x="503" y="217" width="672" height="678" key="search.everywhere.popup" timestamp="1608022621440">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state x="503" y="217" width="672" height="678" key="search.everywhere.popup/0.0.1680.1010@0.0.1680.1010" timestamp="1608022621440" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php-line-method">
+          <url>remoteDeploymentFS://&lt;6b6cfb4f-8e1a-41cb-8683-0b478b0f77d0&gt;/app/Http/Controllers/API/AddressController.php</url>
+          <line>32</line>
+          <properties>
+            <option name="className" value="\App\Http\Controllers\API\AddressController" />
+            <option name="methodName" value="show" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

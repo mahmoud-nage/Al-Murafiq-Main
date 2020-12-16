@@ -12,12 +12,12 @@ class WhishlistController extends Controller
     public function index(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|exists:users,id',
+//            'user_id' => 'required|exists:users,id',
         ]);
         if ($validator->fails()) {
             return response()->json(['status' => 500, 'error' => __('messages.validate_error'), 'message' => $validator->messages()], 200);
         }
-        $records = Wishlist::where('user_id',$request->user_id)->with('company')->latest()->get();
+        $records = Wishlist::where('user_id',auth()->user()->id)->with('company')->latest()->get();
         if($records){
             return response()->json(['status' => 200, 'data' => $records], 200);
         }
@@ -27,7 +27,7 @@ class WhishlistController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|exists:users,id',
+//            'user_id' => 'required|exists:users,id',
             'company_id' => 'required|exists:companies,id',
         ]);
         if ($validator->fails()) {
@@ -35,10 +35,10 @@ class WhishlistController extends Controller
         }
 
         $data = Wishlist::create([
-            'user_id' => $request->user_id,
+            'user_id' => auth()->user()->id,
             'company_id' => $request->company_id,
         ]);
-        
+
         return response()->json(['status' => 200, 'message' => __('messages.success_wishlist')], 200);
     }
 

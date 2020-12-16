@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\General\Ad;
+use App\General\GeneralSettings;
 use App\Language;
 use App\General\Policy;
 use App\General\Review;
@@ -34,14 +35,13 @@ class HomeController extends Controller
             return response()->json(['status' => 500, 'error' => __('messages.validate_error'), 'message' => $validator->messages()], 200);
         }
 
-
         $lang = 'ar';
         if (!is_null($request->header('lang'))) {
             $lang = $request->header('lang');
         }
 
-        $slider = [];
-        $banner = [];
+        $sliders = [];
+        $banners = null;
 
         $cat_count = $this->setting->where('type', 'home_category_count')->first();
         $review_count = $this->setting->where('type', 'home_reviews_count')->first();
@@ -51,14 +51,58 @@ class HomeController extends Controller
         $cat_count = $cat_count ? $cat_count->value : 2;
         $latest_count = $latest_count ? $latest_count->value : 2;
 
-        $ads = Ad::with('company')->where('ad_location', 'home')->where('top', 0)->where('to', '>=', today())->inRandomOrder()->get();
+        $ads = Ad::with(['company' => function ($q) use($lang) {
+            $q->select('id', 'name_' . $lang . ' as name', 'total_rating', 'country_id', 'city_id', 'image', 'address_' . $lang . ' as address', 'desc_' . $lang . ' as desc');
+        }])
+            ->where('ad_location', 'home')
+            ->where('top', 0)
+            ->where('to', '>=', today())
+            ->where('country_id', $request->country_id)->inRandomOrder()->get();
         if ($ads->count() > 0) {
-            $slider = $ads->where('type', 'slider')->take(2);
-            $banner = $ads->where('type', 'banner')->where('top', 0)->take(1);
+            $sliders = $ads->where('type', 'slider')->take(2);
+            $banners = $ads->where('type', 'banner')->where('top', 0)->take(1)->first();
         }
-        $reviews = Review::with('user')->inRandomOrder()->where('active', 1)->where('in_home', 1)->take($review_count)->get();
-        $cats = Category::where('parent_id', 0)->where('active', 1)->where('in_home', 1)->take($cat_count)->select('name_' . app()->getLocale() . ' as name', 'id')->get();
-        $latest = Company::where('parent_id', 0)->where('active', 1)->latest()->take($latest_count)->select('id', 'name_' . app()->getLocale() . ' as name', 'desc_' . app()->getLocale() . ' as desc', 'total_rating', 'image')->get();
+        $reviews = Review::with('user:id,name,avatar')
+            ->select('id', 'comment', 'rate', 'user_id', 'created_at')
+            ->inRandomOrder()->where('active', 1)
+            ->where('in_home', 1)->take($review_count)
+            ->get();
+        $cats = Category::where('parent_id', 0)->where('active', 1)->where('in_home', 1)->take($cat_count)->select('name_' . $lang . ' as name', 'id')->get();
+
+        $latest = Company::with('city:id,name_'.$lang.' as name')->where('parent_id', 0)->where('active', 1)
+            ->select('id', 'name_' . $lang . ' as name', 'desc_' . $lang . ' as desc', 'total_rating', 'image', 'city_id')
+            ->take($latest_count)->latest()->get();
+
+        foreach ($latest as $item) {
+            $item->distance = '12 kilo';
+            $item->desc = strip_tags($item->desc);
+        }
+
+        $slider = [];
+        foreach ($sliders as $key => $ad) {
+            $slider[] = [
+                'id' => $ad->id,
+                'company_id' => $ad->company_id,
+                'image' => $ad->image ? $ad->image : $ad->company->image,
+                'total_rating' => $ad->company->total_rating,
+                'name' => $ad->company->name,
+                'address' => $ad->company->country['name_' . $lang] . ',' . $ad->company->city['name_' . $lang] . ',' . $ad->company->address,
+                'distance' => '12 Kilo',
+                'city' => $ad->company->city['name_' . $lang]
+            ];
+        }
+
+        $banner = [];
+        if ($banners) {
+            $banner = [
+                'id' => $banners->id,
+                'company_id' => $banners->company_id,
+                'image' => $banners->image ? $banners->image : $banners->company->image,
+                'total_rating' => $banners->company->total_rating,
+                'name' => $banners->company->name,
+                'desc' => strip_tags($banners->company->desc)
+            ];
+        }
 
         $data = [
             'slider' => $slider,
@@ -66,6 +110,7 @@ class HomeController extends Controller
             'categories' => $cats,
             'reviews' => $reviews,
             'latest_companies' => $latest,
+            'settings' => GeneralSettings::select('logo', 'favicon', 'lat', 'lon', 'site_'.$lang.' as name', 'address_'.$lang.' as address')->first(),
         ];
         return response()->json(['status' => 200, 'data' => $data], 200);
     }
@@ -108,12 +153,22 @@ class HomeController extends Controller
                     'query' => $query,
                 ]);
             }
-            $companies = Company::where('name_en', 'like', '%' . $query . '%')->orWhere('name_ar', 'like', '%' . $query . '%')->where($conditions)->paginate($search_count);
+            $companies = Company::where('name_en', 'like', '%' . $query . '%')->orWhere('name_ar', 'like', '%' . $query . '%')->where($conditions)
+                ->with('city:id,name_'.$lang.' as name')
+                ->select('id', 'name_'.$lang.' as name', 'desc_'.$lang.' as desc', 'image', 'total_rating', 'city_id', 'lat', 'lon')
+                ->paginate($search_count);
         } else {
-            $companies = Company::where($conditions)->paginate($search_count);
+            $companies = Company::where($conditions)
+                ->with('city:id,name_'.$lang.' as name')
+                ->select('id', 'name_'.$lang.' as name', 'desc_'.$lang.' as desc', 'image', 'total_rating', 'city_id', 'lat', 'lon')
+                ->paginate($search_count);
         }
 
         if ($companies->count() > 0) {
+            foreach ($companies as $company) {
+                $company->distance = '12 kilo';
+                $company->desc = strip_tags($company->desc);
+            }
             return response()->json(['status' => 200, 'data' => $companies], 200);
         }
         return response()->json(['status' => 400, 'message' => __('messages.no_data')], 200);
@@ -143,7 +198,7 @@ class HomeController extends Controller
         $slider_count = $slider_count ? $slider_count->value : 3;
         $banner_count = $this->setting->where('type', 'banner_ads_slider_count')->first();
         $banner_count = $banner_count ? $banner_count->value : 4;
-        $ads = Ad::with('company')->where('ad_location', 'home')->where('to', '>=', today())->where('top', 1)->get();
+        $ads = Ad::with('company')->where('ad_location', 'special')->where('to', '>=', today())->where('top', 1)->get();
         if ($ads->count() > 0) {
             $slider = $ads->where('type', 'slider')->take($slider_count);
             $banner = $ads->where('type', 'banner')->take($banner_count);
@@ -158,7 +213,6 @@ class HomeController extends Controller
 
     public function languages(Request $request)
     {
-
         $lang = 'ar';
         if (!is_null($request->header('lang'))) {
             $lang = $request->header('lang');

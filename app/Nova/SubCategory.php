@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\ID;
 use App\Nova\Actions\Active;
 use App\Nova\Filters\DateTo;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use App\Nova\Actions\Deactive;
 use App\Nova\Filters\DateFrom;
@@ -90,12 +91,25 @@ class SubCategory extends Resource
             //     }
             //     return $categories;
             // })->searchable()->displayUsingLabels()->rules('required')->sortable(),
+            BelongsTo::make(__('parent_id'),'category', Category::class),
+
+            Image::make(__('image'), 'image')
+                ->disk('Root')
+                ->store(function (Request $request, $model) {
+                    $filename = Str::random(50) . '.' . $request->image->getClientOriginalExtension();
+                    $request->image->move(public_path('/uploads/subCategories/'), $filename);
+                    return [
+                        'image' => '/uploads/subCategories/' . $filename,
+                    ];
+                })
+                ->prunable()
+                ->creationRules('required', 'image', 'mimes:png,jpeg,jpg,gif')
+                ->updateRules('image', 'mimes:png,jpeg,jpg,gif'),
 
             Hidden::make('slug')->default(Str::random(6))->sortable(),
-            BelongsTo::make(__('parent_id'),'category', Category::class),
             Boolean::make(__('active'),'active')->trueValue(1)->falseValue(0)->sortable()->default(1),
             Hidden::make(__('type'),'type')->default(1),
-            HasMany::make(__('subSubcategories'),'subSubcategories', SubSubCategory::class),
+//            HasMany::make(__('subSubcategories'),'subSubcategories', SubSubCategory::class),
         ];
     }
 

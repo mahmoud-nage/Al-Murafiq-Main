@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\ID;
 use App\Nova\Actions\Active;
 use App\Nova\Filters\DateTo;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use App\Nova\Actions\Deactive;
 use App\Nova\Actions\HideHome;
@@ -83,6 +84,20 @@ class Category extends Resource
             Hidden::make('slug')->default(Str::random(6))->sortable(),
 
             Hidden::make(__('parent_id'), 'parent_id')->default(0)->onlyOnForms(),
+
+
+            Image::make(__('image'), 'image')
+                ->disk('Root')
+                ->store(function (Request $request, $model) {
+                    $filename = Str::random(50) . '.' . $request->image->getClientOriginalExtension();
+                    $request->image->move(public_path('/uploads/categories/'), $filename);
+                    return [
+                        'image' => '/uploads/categories/' . $filename,
+                    ];
+                })
+                ->prunable()
+                ->creationRules('required', 'image', 'mimes:png,jpeg,jpg,gif')
+                ->updateRules('image', 'mimes:png,jpeg,jpg,gif'),
 
             Boolean::make(__('active'),'active')->trueValue(1)->falseValue(0)->sortable()->default(1),
             Boolean::make(__('in_home'), 'in_home')->trueValue(1)->falseValue(0)->sortable()->default(1),

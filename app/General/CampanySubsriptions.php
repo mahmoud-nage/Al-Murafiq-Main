@@ -20,7 +20,7 @@ class CampanySubsriptions extends Model
 
     public function ads()
     {
-        return $this->hasMany('App\General\Ad');
+        return $this->hasMany('App\General\Ad', 'company_subscription_id');
     }
 
     public function subscription()

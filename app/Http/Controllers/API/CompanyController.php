@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 class CompanyController extends Controller
 {
     private $setting;
+
     public function __construct()
     {
         $this->setting = BusinessSettings::all();
@@ -26,21 +27,39 @@ class CompanyController extends Controller
      */
     public function index(Request $request)
     {
+
+        $lang = 'ar';
+        if (!is_null($request->header('lang'))) {
+            $lang = $request->header('lang');
+        }
+
         $search_count = $this->setting->where('type', 'search_count')->first();
         $search_count = $search_count ? $search_count->value : 9;
         if ($request->has('category_id') && $request->category_id) {
             $cat = Category::find($request->category_id);
             if ($cat) {
-                $records = $cat->companies->paginate($search_count);
+                $records = $cat->companiesBySub()
+                    ->where('country_id', auth()->user()->country_id)
+                    ->with('city:id,name_' . $lang . ' as name')
+                    ->select('id', 'name_' . $lang . ' as name', 'desc_' . $lang . ' as desc', 'image', 'total_rating', 'city_id', 'lat', 'lon')
+                    ->paginate($search_count);
             }
         } else {
-            $records = Company::paginate($search_count);
+            $records = Company::where('country_id', auth()->user()->country_id)
+                ->with('city:id,name_' . $lang . ' as name')
+                ->select('id', 'name_' . $lang . ' as name', 'desc_' . $lang . ' as desc', 'image', 'total_rating', 'city_id', 'lat', 'lon')
+                ->paginate($search_count);
         }
         if ($records) {
+            foreach ($records as $record) {
+                $record->distance = '12 kilo';
+                $record->desc = strip_tags($record->desc);
+            }
             return response()->json(['status' => 200, 'data' => $records], 200);
         }
         return response()->json(['status' => 400, 'message' => __('messages.no_data')], 200);
     }
+
     /**
      * Display the specified resource.
      *
@@ -57,13 +76,26 @@ class CompanyController extends Controller
             return response()->json(['status' => 500, 'error' => __('messages.validate_error'), 'message' => $validator->messages()], 200);
         }
 
+        $lang = 'ar';
+        if (!is_null($request->header('lang'))) {
+            $lang = $request->header('lang');
+        }
+
         if ($request->has('ad_id') && $request->ad_id) {
             Ad::find($request->ad_id)->increment('visit_count');
         }
 
-        $record = Company::with('reviews')->find($request->id);
+        $record = Company::with(['reviews' => function ($q) {
+            $q->where('active', 1);
+        }, 'social' => function ($q) {
+            $q->where('active', 1)->select('link','icon_type','socialable_id','socialable_type');
+        }])->find($request->id);
+
         $record->increment('visit_count');
         if ($record) {
+            $record->name = $record['name_'.$lang];
+            $record->address = $record['address_'.$lang];
+            $record->desc = strip_tags($record['desc_'.$lang]);
             return response()->json(['status' => 200, 'data' => $record], 200);
         }
         return response()->json(['status' => 400, 'message' => __('messages.no_data')], 200);

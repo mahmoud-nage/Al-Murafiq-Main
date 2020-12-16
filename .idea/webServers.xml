@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="6b6cfb4f-8e1a-41cb-8683-0b478b0f77d0" name="Al-Murafiq" url="http://54.36.136.93">
+        <fileTransfer rootFolder="/public_html" host="54.36.136.93" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

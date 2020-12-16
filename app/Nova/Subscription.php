@@ -2,6 +2,12 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\Subscriptions\AdsCount;
+use App\Nova\Metrics\Subscriptions\AdsTrend;
+use App\Nova\Metrics\Subscriptions\CompanyCount;
+use App\Nova\Metrics\Subscriptions\CompanyTrend;
+use App\Nova\Metrics\Subscriptions\Payments;
+use App\Nova\Metrics\Subscriptions\PaymentsTrend;
 use Laravel\Nova\Fields\ID;
 use App\Nova\Actions\Active;
 use Illuminate\Http\Request;
@@ -10,8 +16,6 @@ use Laravel\Nova\Fields\Trix;
 use App\Nova\Actions\Deactive;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Subscription extends Resource
 {
@@ -94,8 +98,8 @@ class Subscription extends Resource
                 ->sortable()->exceptOnForms(),
             Boolean::make(__('Special'), 'top')->trueValue(1)->falseValue(0)->sortable()->default(0),
             Boolean::make(__('active'),'active')->trueValue(1)->falseValue(0)->sortable()->default(1),
-            BelongsToMany::make(__('companies'),'companies', Company::class),
-            BelongsToMany::make(__('ads'),'ads',Ad::class),
+//            BelongsToMany::make(__('companies'),'companies', Company::class),
+//            BelongsToMany::make(__('ads'),'ads',Ad::class),
 
         ];
     }
@@ -108,7 +112,14 @@ class Subscription extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            (new CompanyCount())->onlyOnDetail(),
+            (new CompanyTrend())->onlyOnDetail()->width('2/3'),
+            (new AdsCount)->onlyOnDetail(),
+            (new AdsTrend())->onlyOnDetail()->width('2/3'),
+            (new Payments())->onlyOnDetail(),
+            (new PaymentsTrend())->onlyOnDetail()->width('2/3'),
+        ];
     }
 
     /**
@@ -130,7 +141,8 @@ class Subscription extends Resource
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+        ];
     }
 
     /**

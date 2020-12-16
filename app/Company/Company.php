@@ -87,7 +87,7 @@ class Company extends Model
 
     public function ads()
     {
-        return $this->hasMany('App\General\Ad');
+        return $this->hasMany('App\General\Ad', 'company_id', 'id');
     }
     public function Subscriptions()
     {

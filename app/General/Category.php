@@ -17,7 +17,7 @@ class Category extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $fillable = array('name_ar', 'name_en', 'slug', 'active', 'in_home', 'parent_id', 'type');
+    protected $fillable = array('name_ar', 'name_en', 'slug', 'active', 'in_home', 'parent_id', 'type', 'image', 'color');
     // protected $visible = array('name_ar', 'name_en', 'slug', 'active', 'in_home', 'parent_id', 'type');
 
     public function subcategories()
@@ -42,7 +42,12 @@ class Category extends Model
 
     public function companies()
     {
-        return $this->belongsTo('App\Company\Company');
+        return $this->hasMany('App\Company\Company', 'cat_id');
+    }
+
+    public function companiesBySub()
+    {
+        return $this->hasMany('App\Company\Company', 'sub_cat_id');
     }
 
     public function files()

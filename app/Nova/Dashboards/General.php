@@ -33,23 +33,23 @@ class General extends Dashboard
                 ])
                 ->series(array([
                     'barPercentage' => 0.5,
-                    'label' => __('staff').' (' . $Staffs . ')',
+                    'label' => __('staff') . ' (' . $Staffs . ')',
                     'backgroundColor' => '#000',
                     'data' => [\App\User::where('type', 'Staff')->whereMonth('created_at', 1)->count(), \App\User::where('type', 'Staff')->whereMonth('created_at', 2)->count(), \App\User::where('type', 'Staff')->whereMonth('created_at', 3)->count(), \App\User::where('type', 'Staff')->whereMonth('created_at', 1)->count(), \App\User::where('type', 'Staff')->whereMonth('created_at', 5)->count(), \App\User::where('type', 'Staff')->whereMonth('created_at', 6)->count(), \App\User::where('type', 'Staff')->whereMonth('created_at', 7)->count(), \App\User::where('type', 'Staff')->whereMonth('created_at', 8)->count(), \App\User::where('type', 'Staff')->whereMonth('created_at', 9)->count(), \App\User::where('type', 'Staff')->whereMonth('created_at', 10)->count(), \App\User::where('type', 'Staff')->whereMonth('created_at', 11)->count(), \App\User::where('type', 'Staff')->whereMonth('created_at', '12')->count()],
                 ], [
                     'barPercentage' => 0.5,
-                    'label' => __('companies').' (' . $companies . ')',
+                    'label' => __('companies') . ' (' . $companies . ')',
                     'backgroundColor' => '#f99037',
                     'data' => [\App\User::where('type', 'Company')->whereMonth('created_at', 1)->count(), \App\User::where('type', 'Company')->whereMonth('created_at', 2)->count(), \App\User::where('type', 'Company')->whereMonth('created_at', 3)->count(), \App\User::where('type', 'Company')->whereMonth('created_at', 4)->count(), \App\User::where('type', 'Company')->whereMonth('created_at', 5)->count(), \App\User::where('type', 'Company')->whereMonth('created_at', 6)->count(), \App\User::where('type', 'Company')->whereMonth('created_at', 7)->count(), \App\User::where('type', 'Company')->whereMonth('created_at', 8)->count(), \App\User::where('type', 'Company')->whereMonth('created_at', 9)->count(), \App\User::where('type', 'Company')->whereMonth('created_at', 10)->count(), \App\User::where('type', 'Company')->whereMonth('created_at', 11)->count(), \App\User::where('type', 'Company')->whereMonth('created_at', '12')->count()],
                 ], [
                     'barPercentage' => 0.5,
-                    'label' => __('marketers').' (' . $marketers . ')',
+                    'label' => __('marketers') . ' (' . $marketers . ')',
                     'backgroundColor' => '#098f56',
 
                     'data' => [\App\User::where('type', 'Marketer')->whereMonth('created_at', '01')->count(), \App\User::where('type', 'Marketer')->whereMonth('created_at', '02')->count(), \App\User::where('type', 'Marketer')->whereMonth('created_at', 3)->count(), \App\User::where('type', 'Marketer')->whereMonth('created_at', 4)->count(), \App\User::where('type', 'Marketer')->whereMonth('created_at', 5)->count(), \App\User::where('type', 'Marketer')->whereMonth('created_at', 6)->count(), \App\User::where('type', 'Marketer')->whereMonth('created_at', 7)->count(), \App\User::where('type', 'Marketer')->whereMonth('created_at', 8)->count(), \App\User::where('type', 'Marketer')->whereMonth('created_at', '09')->count(), \App\User::where('type', 'Marketer')->whereMonth('created_at', 10)->count(), \App\User::where('type', 'Marketer')->whereMonth('created_at', 11)->count(), \App\User::where('type', 'Marketer')->whereMonth('created_at', '12')->count()],
                 ], [
                     'barPercentage' => 0.5,
-                    'label' => __('customers').' (' . $customers . ')',
+                    'label' => __('customers') . ' (' . $customers . ')',
                     'backgroundColor' => '#f2cb22',
                     'data' => [\App\User::where('type', 'Customer')->whereMonth('created_at', 1)->count(), \App\User::where('type', 'Customer')->whereMonth('created_at', 2)->count(), \App\User::where('type', 'Customer')->whereMonth('created_at', 3)->count(), \App\User::where('type', 'Customer')->whereMonth('created_at', 4)->count(), \App\User::where('type', 'Customer')->whereMonth('created_at', 5)->count(), \App\User::where('type', 'Customer')->whereMonth('created_at', 6)->count(), \App\User::where('type', 'Customer')->whereMonth('created_at', 7)->count(), \App\User::where('type', 'Customer')->whereMonth('created_at', 8)->count(), \App\User::where('type', 'Customer')->whereMonth('created_at', 9)->count(), \App\User::where('type', 'Customer')->whereMonth('created_at', 10)->count(), \App\User::where('type', 'Customer')->whereMonth('created_at', 11)->count(), \App\User::where('type', 'Customer')->whereMonth('created_at', '12')->count()],
                 ]))
@@ -62,10 +62,10 @@ class General extends Dashboard
                 ->width('2/3'),
 
             (new TotalUsers)->help('This is calculated using all users that are active and not banned.'),
-            new allAdmins,
-            new allCompanies,
-            new allMarheters,
-            new allCustomers,
+            (new allAdmins)->help('This is calculated using all users that are active and not banned.'),
+            (new allCompanies)->help('This is calculated using all users that are active and not banned.'),
+            (new allMarheters)->help('This is calculated using all users that are active and not banned.'),
+            (new allCustomers)->help('This is calculated using all users that are active and not banned.'),
         ];
     }
 
@@ -74,6 +74,11 @@ class General extends Dashboard
      *
      * @return string
      */
+    public function name()
+    {
+        return __('General');
+    }
+
     public static function uriKey()
     {
         return 'general';

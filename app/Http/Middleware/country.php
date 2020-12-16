@@ -16,7 +16,7 @@ class country
     public function handle($request, Closure $next)
     {
         if ($request->has('country_id') && $request->country_id) {
-            $country = Country::where('id', $request->country_id)->where('active', 1)->first();
+            $country = \App\General\Country::where('id', $request->country_id)->where('active', 1)->first();
             if ($country == null) {
                 $country = \App\General\Country::where('default', 1)->where('active', 1)->first()->id;
                 $request->merge(['country_id' => $country]);

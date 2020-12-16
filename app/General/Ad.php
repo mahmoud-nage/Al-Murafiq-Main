@@ -17,13 +17,13 @@ class Ad extends Model
 
     use SoftDeletes;
 
-    protected $dates = ['deleted_at'];
-    protected $fillable = array('company_id', 'subscription_id', 'company_subsription_id', 'image', 'top', 'type', 'ad_location', 'url', 'visit_count');
+    protected $dates = ['deleted_at','from','to'];
+    protected $fillable = array('company_id', 'subscription_id', 'company_subscription_id', 'country_id', 'image', 'top', 'type', 'ad_location', 'url', 'visit_count');
     // protected $visible = array('company_id', 'subscription_id', 'company_subsription_id', 'image', 'top', 'type', 'ad_location', 'url', 'visit_count');
 
     public function companySubsriptions()
     {
-        return $this->belongsTo('App\General\CompanySubsriptions', 'company_subsription_id');
+        return $this->belongsTo('App\General\CampanySubsriptions', 'company_subscription_id');
     }
 
     public function subscription()

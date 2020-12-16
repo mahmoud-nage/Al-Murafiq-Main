@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Laravel\Nova\Fields\HasOne;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
@@ -65,7 +66,7 @@ class CompanySubsription extends Resource
             Number::make(__('price'),'price')->hideWhenCreating(),
             Number::make('# Of Slider Show In Ad', 'slider_num')->hideWhenCreating(),
             Number::make('# Of Banner Show In Ad', 'banner_num')->hideWhenCreating(),
-
+            HasMany::make(__('ads'),'ads', Ad::class),
             HasOne::make('Payment', 'payment', 'App\Nova\Payment'),
         ];
     }

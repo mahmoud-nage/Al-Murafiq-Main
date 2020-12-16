@@ -2,9 +2,11 @@
 
 namespace App\Nova;
 
-use App\Nova\Resource;
+use App\Nova\Metrics\Ads\VisitCount;
+use App\Nova\Metrics\Ads\VisitTrend;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use App\Nova\Filters\DateTo;
 use Illuminate\Http\Request;
@@ -82,13 +84,39 @@ class Ad extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make(__('company'), 'company', Company::class)->rules('required'),
-            BelongsTo::make(__('subscription'), 'subscription', Subscription::class)->rules('required'),
+            BelongsTo::make(__('company'), 'company', Company::class)->rules('required')->default(function() use($request){
+                if (isset($request->viaResourceId) && $request->viaResource == 'company-subsriptions') {
+                    $sub = \App\General\CampanySubsriptions::where('id', $request->viaResourceId)->where('to', '>=', date(today()))->first();
+                    return $sub->company_id;
+                }
+            }),
+//            BelongsTo::make(__('subscription'), 'subscription', Subscription::class)->rules('required'),
+//            BelongsTo::make(__('companySubsriptions'), 'companySubsriptions', CompanySubsription::class),
+
+            Select::make(__('subscription'), 'company_subscription_id')->options(function () use($request) {
+                $arr = [];
+                if (isset($request->viaResourceId) && $request->viaResource == 'company-subsriptions') {
+                    $sub = \App\General\CampanySubsriptions::where('id', $request->viaResourceId)->where('to', '>=', date(today()))->first();
+
+                    return $arr[$sub->id] = $sub->subscription['name_' . app()->getLocale()];
+                }
+                elseif (isset($request->viaResourceId) && $request->viaResource == 'companies') {
+                    $sub = \App\General\CampanySubsriptions::where('company_id', $request->viaResourceId)->where('to', '>=', date(today()))->first();
+                    return $arr[$sub->id] = $sub->subscription['name_' . app()->getLocale()];
+                }
+                $sub = \App\General\CampanySubsriptions::where('company_id', $this->company_id)->where('to', '>=', date(today()))->get();
+                if ($sub->count() > 0) {
+                    foreach ($sub as $item) {
+                        $arr[$item->id] = $item->subscription['name_' . app()->getLocale()];
+                    }
+                }
+                return $arr;
+            }),
 
             Select::make(__('ad_location'), 'ad_location')->options([
                 'home' => __('in_home'),
                 'category' => __('Category'),
-                'Special' => __('Special'),
+                'special' => __('Special'),
             ])->searchable()->rules('required'),
 
             Select::make(__('type'), 'type')->options([
@@ -96,7 +124,12 @@ class Ad extends Resource
                 'slider' => __('Slider'),
             ])->searchable()->rules('required'),
 
-            Boolean::make(__('Special'), 'top')->trueValue(1)->falseValue(0)->sortable()->default(0),
+            DateTime::make(__('from'), 'from')
+                ->creationRules('required', 'after_or_equal:today')
+                ->default(date(today())),
+            DateTime::make(__('to'), 'to')
+                ->creationRules('required', 'after_or_equal:from')
+                ->default(date(today())),
 
             Image::make(__('image'), 'image')
                 ->disk('Root')
@@ -110,6 +143,7 @@ class Ad extends Resource
                 ->prunable()
                 ->rules('image', 'mimes:png,jpeg,jpg,gif'),
 
+            Boolean::make(__('Special'), 'top')->trueValue(1)->falseValue(0)->sortable()->default(0),
         ];
     }
 
@@ -121,7 +155,9 @@ class Ad extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            (new VisitCount)->onlyOnDetail(),
+        ];
     }
 
     /**

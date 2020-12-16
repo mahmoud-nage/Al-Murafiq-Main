@@ -34,16 +34,18 @@ class AuthController extends Controller
             // 'fcm_token' => 'required',
             'type' => 'required|in:Company,Marketer,Customer',
             // 'birth_date' => 'date',
+            'cat_id' => 'required|exists:categories,id',
+            'sub_cat_id' => 'required|exists:categories,id',
 
         ];
 
         if ($request->has('type') && $request->type == 'Company') {
             $validate = array_merge($validate, [
-                'name_ar' => 'required',
+                'name_ar' => 'nullable',
                 'name_en' => 'required',
-                'desc_ar' => 'required',
+                'desc_ar' => 'nullable',
                 'desc_en' => 'required',
-                'address_ar' => 'required',
+                'address_ar' => 'nullable',
                 'address_en' => 'required',
                 // 'open_from' => 'required|date',
                 // 'open_to' => 'required|date',
@@ -102,6 +104,8 @@ class AuthController extends Controller
                 'city_id' => $request->city_id,
                 'area_id' => $request->area_id,
                 'zone_id' => $request->zone_id,
+                'cat_id' => $request->cat_id,
+                'sub_cat_id' => $request->sub_cat_id,
             ]);
 
             if ($request->hasFile('image')) {
@@ -149,7 +153,7 @@ class AuthController extends Controller
                 $token = $user->createToken('LaravelAuthApp')->accessToken;
 
                 $user = User::find($user->id);
-                return response()->json(['status' => 200, 'user' => $token, 'message' => __('messages.success_register')], 200);
+                return response()->json(['status' => 200, 'token' => $token, 'message' => __('messages.success_register')], 200);
             }
         }
         return response()->json(['status' => 400, 'message' => __('messages.wrong')], 200);
@@ -161,7 +165,7 @@ class AuthController extends Controller
             'email' => 'required_without:provider_id,provider|exists:users',
             'password' => 'required_without:provider_id,provider',
 //             'provider' => 'required_without: email',
-             'provider_id' => 'required_with: provider',
+            'provider_id' => 'required_with: provider',
         ]);
 
         if ($validator->fails()) {
@@ -172,7 +176,7 @@ class AuthController extends Controller
         if ($request->has('email') && $request->has('password') && $request->email) {
 //            $user = User::where('email', $request->email)->first();
             if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
-                    $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
+                $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
 //                if (Hash::check($request->password, $user->password)) {
 
 //                    $data = [
@@ -345,7 +349,7 @@ class AuthController extends Controller
     public function updateProfile(Request $request)
     {
         $validate = [
-            'user_id' => 'required|exists:users,id',
+//            'user_id' => 'required|exists:users,id',
             'name' => 'required',
             'email' => 'required|string|email|max:255|unique:users,email,' . $request->user_id,
             'password' => 'confirmed|min:8',
@@ -354,8 +358,8 @@ class AuthController extends Controller
             'phone' => 'required',
             'country_id' => 'required|exists:countries,id',
             'city_id' => 'required|exists:cities,id',
-            'area_id' => 'required|exists:areas,id',
-            'zone_id' => 'required|exists:zones,id',
+//            'area_id' => 'required|exists:areas,id',
+//            'zone_id' => 'required|exists:zones,id',
             // 'fcm_token' => 'required',
             'type' => 'required|in:Company,Marketer,Customer',
             // 'birth_date' => 'date',
@@ -364,13 +368,13 @@ class AuthController extends Controller
 
         if ($request->has('type') && $request->type == 'Company') {
             $validate = array_merge($validate, [
-                'name_ar' => 'required',
+                'name_ar' => 'nullable',
                 'name_en' => 'required',
-                'desc_ar' => 'required',
+                'desc_ar' => 'nullable',
                 'desc_en' => 'required',
-                'service_ar' => 'required',
-                'service_en' => 'required',
-                'address_ar' => 'required',
+//                'service_ar' => 'required',
+//                'service_en' => 'required',
+                'address_ar' => 'nullable',
                 'address_en' => 'required',
                 // 'open_from' => 'required|date',
                 // 'open_to' => 'required|date',
@@ -386,7 +390,7 @@ class AuthController extends Controller
             return response()->json(['status' => 500, 'error' => __('messages.validate_error'), 'message' => $validator->messages()], 200);
         }
 
-        $user = User::find($request->input('user_id'));
+        $user = auth()->user();
         if ($user) {
             $user->update([
                 'name' => $request->name,
@@ -429,14 +433,14 @@ class AuthController extends Controller
                     'phone2' => $request->phone2 ? $request->phone2 : $company->phone2,
                     'tel' => $request->tel ? $request->tel : $company->tel,
                     'fax' => $request->fax ? $request->fax : $company->fax,
-                    'facebook' => $request->facebook ? $request->facebook : $company->facebook,
-                    'instagram' => $request->instagram ? $request->instagram : $company->instagram,
-                    'twitter' => $request->twitter ? $request->twitter : $company->twitter,
-                    'snapshat' => $request->snapshat ? $request->snapshat : $company->snapshat,
-                    'whatsapp' => $request->whatsapp ? $request->whatsapp : $company->whatsapp,
-                    'googleplus' => $request->googleplus ? $request->googleplus : $company->googleplus,
-                    'linked_in' => $request->linked_in ? $request->linked_in : $company->linked_in,
-                    'website' => $request->website ? $request->website : $company->website,
+//                    'facebook' => $request->facebook ? $request->facebook : $company->facebook,
+//                    'instagram' => $request->instagram ? $request->instagram : $company->instagram,
+//                    'twitter' => $request->twitter ? $request->twitter : $company->twitter,
+//                    'snapshat' => $request->snapshat ? $request->snapshat : $company->snapshat,
+//                    'whatsapp' => $request->whatsapp ? $request->whatsapp : $company->whatsapp,
+//                    'googleplus' => $request->googleplus ? $request->googleplus : $company->googleplus,
+//                    'linked_in' => $request->linked_in ? $request->linked_in : $company->linked_in,
+//                    'website' => $request->website ? $request->website : $company->website,
                     'lat' => $request->lat ? $request->lat : $company->lat,
                     'lon' => $request->lon ? $request->lon : $company->lon,
                     'country_id' => $request->country_id ? $request->country_id : $company->country_id,
@@ -464,7 +468,7 @@ class AuthController extends Controller
 
             $data = [
                 'user' => $user,
-                'info' => $user->userable->load('reviews')
+                'info' => $user->userable()->load('reviews')
             ];
             return response()->json(['status' => 200, 'message' => __('messages.success_update_profile'), 'data' => $data], 200);
         }
@@ -503,13 +507,13 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:users,id',
-            'name_ar' => 'required',
+            'name_ar' => 'nullable',
             'name_en' => 'required',
-            'desc_ar' => 'required',
+            'desc_ar' => 'nullable',
             'desc_en' => 'required',
-            'service_ar' => 'required',
-            'service_en' => 'required',
-            'address_ar' => 'required',
+//            'service_ar' => 'nullable',
+//            'service_en' => 'required',
+            'address_ar' => 'nullable',
             'address_en' => 'required',
             'open_from' => 'required|date',
             'open_to' => 'required|date',

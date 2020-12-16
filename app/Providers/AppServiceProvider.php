@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Company\Company;
+use App\General\Ad;
 use App\General\BusinessSettings;
 use App\General\Category;
 use App\General\GeneralSettings;
+use App\Observers\AdObserver;
 use App\Observers\CompanyObserve;
 use App\Observers\CategoryObserve;
 use App\General\CampanySubsriptions;
@@ -36,5 +38,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Company::observe(CompanyObserve::class);
         CampanySubsriptions::observe(CampanySubsriptionsObserver::class);
+        Ad::observe(AdObserver::class);
     }
 }
