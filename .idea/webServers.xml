@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="8f900176-0f6b-444a-84ca-35cb4ce80b1b" name="Imdad-Gomla" url="http://54.36.136.93">
+        <fileTransfer rootFolder="/public_html" host="54.36.136.93" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

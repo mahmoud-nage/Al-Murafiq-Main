@@ -13,9 +13,9 @@ class CreateReviewsTable extends Migration {
 			$table->bigInteger('user_id')->unsigned();
 			$table->bigInteger('company_id')->unsigned();
 			$table->text('comment');
+			$table->integer('rate');
 			$table->boolean('active')->default(0);
 			$table->boolean('in_home')->default(0);
-			$table->integer('rate');
 			$table->bigInteger('likes_count')->default(0);
 			$table->bigInteger('dislikens_count')->default(0);
             $table->bigInteger('country_id')->unsigned()->nullable();

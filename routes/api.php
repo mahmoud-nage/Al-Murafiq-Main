@@ -22,7 +22,6 @@ Route::group(['namespace' => 'API'], function () {
     });
 
     Route::group(['middleware' => ['Locales']], function () {
-
         Route::get('/languages', 'HomeController@languages');
         Route::get('/policies', 'HomeController@policies');
         Route::get('/about-us', 'HomeController@aboutUs');
